@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<products>
+    <product>
+        <id>1</id>
+        <name>Smartphone</name>
+        <project-id>gcp-project/db-dev</project-id>
+        <price>699.99</price>
+        <description>High-end smartphone with excellent features.</description>
+    </product>
+    <product>
+        <id>2</id>
+        <name>Laptop</name>
+        <price>1199.99</price>
+        <description>Powerful laptop for gaming and work.</description>
+    </product>
+    <product>
+        <id>3</id>
+        <name>Headphones</name>
+        <price>199.99</price>
+        <description>Noise-cancelling over-ear headphones.</description>
+    </product>
+</products>

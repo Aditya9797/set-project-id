@@ -1,0 +1,36 @@
+name: Reusable Workflow - Set and Replace Placeholder
+
+on:
+  workflow_call:
+    inputs:
+      gcp_project_id:
+        required: true
+        type: string
+
+jobs:
+  replace-placeholders:
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Check out the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set the GCP project ID as an environment variable
+      - name: Set Environment Variable
+        run: echo "GCP_PROJECT_ID=${{ inputs.gcp_project_id }}" >> $GITHUB_ENV
+
+      # Step 3: Replace placeholder in repository files
+      - name: Replace Placeholders in Files
+        run: |
+          find . -type f -name "*.xml" -exec sed -i "s/{{PROJECT_ID}}/${GCP_PROJECT_ID}/g" {} +
+          find . -type f -name "*.js" -exec sed -i "s/{{PROJECT_ID}}/${GCP_PROJECT_ID}/g" {} +
+          echo "Replaced {{PROJECT_ID}} with ${GCP_PROJECT_ID} in all files."
+
+      # Step 4: Commit changes back to the repository
+      - name: Commit Changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Replaced {{PROJECT_ID}} with ${GCP_PROJECT_ID}"
+          git push

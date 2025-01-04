@@ -1,0 +1,25 @@
+name: Main Workflow - Replace and Persist Values
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  call-reusable-workflow:
+    uses: ./.github/workflows/reusable-workflow.yml
+    with:
+      gcp_project_id: "db-dev"
+
+  verify-replacement:
+    needs: call-reusable-workflow
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Check out the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Step 2: Verify placeholder replacements
+      - name: Verify Replacement
+        run: |
+          grep -q "db-dev" products.xml && echo "Placeholder replaced successfully!" || echo "Replacement failed."
